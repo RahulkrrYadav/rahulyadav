@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Stack .NET Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
+            overflow-x: hidden;
+            padding-top: 80px; /* Space for fixed header */
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tech-card {
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+            .tech-card.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .tech-card:hover {
+                transform: translateY(-5px) !important;
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+                border-color: #3b82f6;
+            }
+
+        .project-card {
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+            .project-card.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .project-card:hover {
+                transform: translateY(-5px) !important;
+                box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+                border-color: #8b5cf6;
+            }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 70%);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(50px, 50px);
+            }
+
+            50% {
+                transform: translate(0, 100px);
+            }
+
+            75% {
+                transform: translate(-50px, 50px);
+            }
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+        .contact-input {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .contact-input:focus {
+                outline: none;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                width: 60%;
+                height: 4px;
+                bottom: -10px;
+                left: 20%;
+                background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+                border-radius: 2px;
+            }
+
+        /* Fixed header styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            header.scrolled {
+                background: rgba(15, 23, 42, 0.98);
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            }
+
+        /* Typing animation */
+        .typed-cursor {
+            opacity: 1;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Scroll animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+            .fade-in.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        /* Testimonial styles */
+        .testimonial-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+            .testimonial-card.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .testimonial-card:hover {
+                transform: translateY(-5px) !important;
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+                border-color: #3b82f6;
+            }
+
+        /* Counter animation */
+        .counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Circles -->
+    <div class="animated-bg">
+        <div class="bg-circle w-64 h-64" style="top: 10%; left: 5%;"></div>
+        <div class="bg-circle w-96 h-96" style="top: 60%; left: 70%;"></div>
+        <div class="bg-circle w-80 h-80" style="top: 20%; left: 80%;"></div>
+        <div class="bg-circle w-40 h-40" style="top: 70%; left: 20%;"></div>
+    </div>
+
+    <!-- Fixed Header -->
+    <header id="header" class="py-4">
+        <nav class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">RAHUL<span class="text-white">PORTFOLIO</span></div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-blue-400">Home</a>
+                    <a href="#about" class="nav-link text-white hover:text-blue-400">About</a>
+                    <a href="#skills" class="nav-link text-white hover:text-blue-400">Skills</a>
+                    <a href="#projects" class="nav-link text-white hover:text-blue-400">Projects</a>
+                    <a href="#testimonials" class="nav-link text-white hover:text-blue-400">Testimonials</a>
+                    <a href="#contact" class="nav-link text-white hover:text-blue-400">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+                <a href="#home" class="block nav-link text-white hover:text-blue-400 py-2">Home</a>
+                <a href="#about" class="block nav-link text-white hover:text-blue-400 py-2">About</a>
+                <a href="#skills" class="block nav-link text-white hover:text-blue-400 py-2">Skills</a>
+                <a href="#projects" class="block nav-link text-white hover:text-blue-400 py-2">Projects</a>
+                <a href="#testimonials" class="block nav-link text-white hover:text-blue-400 py-2">Testimonials</a>
+                <a href="#contact" class="block nav-link text-white hover:text-blue-400 py-2">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="container mx-auto px-6 py-20 md:py-32">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Hi, I'm <span class="gradient-text">Rahul</span><span class="typed-cursor">|</span></h1>
+                <h2 class="text-2xl md:text-3xl font-semibold mb-6">
+                    <span id="typed-text"></span>
+                </h2>
+                <p class="text-lg text-gray-300 mb-8 max-w-lg fade-in">
+                    I build robust, scalable, and high-performance web applications using the latest .NET technologies and modern frontend frameworks.
+                </p>
+                <div class="flex space-x-4 fade-in" style="transition-delay: 0.2s;">
+                    <a href="#contact" class="btn-primary text-white px-6 py-3 rounded-full font-medium">Hire Me</a>
+                    <a href="#projects" class="border border-blue-400 text-blue-400 px-6 py-3 rounded-full font-medium hover:bg-blue-400 hover:text-white transition">View Work</a>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 flex justify-center items-center fade-in" style="transition-delay: 0.4s;">
+                <div class="relative">
+                    <div class="w-40 h-40 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-blue-400 shadow-lg">
+                        <img src="./Rahul_Image.jpeg" alt="Rahul Image" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container mx-auto px-6 py-20">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title fade-in">About Me</h2>
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center fade-in">
+                <div class="w-64 h-64 rounded-full overflow-hidden border-4 border-purple-500">
+                    <img src="./Rahul_Image2.jpeg" alt="Rahul Image" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="md:w-2/3 md:pl-12">
+                <h3 class="text-2xl font-semibold mb-4 gradient-text fade-in">Professional .NET Developer</h3>
+                <p class="text-gray-300 mb-6 fade-in">
+                    With over <span class="counter" data-target="2">0</span> years of experience in software development, I specialize in building enterprise-grade applications using the .NET ecosystem.
+                    My expertise spans from backend API development with ASP.NET Core to modern frontend development with React, Angular, and Blazor.
+                </p>
+                <p class="text-gray-300 mb-6 fade-in" style="transition-delay: 0.2s;">
+                    I'm passionate about clean code, software architecture, and creating solutions that not only meet business requirements but also
+                    provide exceptional user experiences. My approach combines technical excellence with a deep understanding of business needs.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center fade-in" style="transition-delay: 0.3s;">
+                        <i class="fas fa-calendar-alt text-blue-400 mr-3"></i>
+                        <span class="text-gray-300"><span class="font-semibold text-white">Experience:</span> <span class="counter" data-target="2">0</span>+ Years</span>
+                    </div>
+                    <div class="flex items-center fade-in" style="transition-delay: 0.35s;">
+                        <i class="fas fa-graduation-cap text-purple-400 mr-3"></i>
+                        <span class="text-gray-300"><span class="font-semibold text-white">Education:</span> Bachelor's in CS</span>
+                    </div>
+                    <div class="flex items-center fade-in" style="transition-delay: 0.4s;">
+                        <i class="fas fa-map-marker-alt text-blue-400 mr-3"></i>
+                        <span class="text-gray-300"><span class="font-semibold text-white">Location:</span> Noida, India</span>
+                    </div>
+                    <div class="flex items-center fade-in" style="transition-delay: 0.45s;">
+                        <i class="fas fa-envelope text-purple-400 mr-3"></i>
+                        <span class="text-gray-300"><span class="font-semibold text-white">Email:</span> rahulyadav252002@gmail.com</span>
+                    </div>
+                    <div class="flex items-center fade-in" style="transition-delay: 0.5s;">
+                        <i class="fas fa-briefcase text-blue-400 mr-3"></i>
+                        <span class="text-gray-300"><span class="font-semibold text-white">Clients:</span> <span class="counter" data-target="11">0</span>+</span>
+                    </div>
+                    <div class="flex items-center fade-in" style="transition-delay: 0.55s;">
+                        <i class="fas fa-project-diagram text-purple-400 mr-3"></i>
+                        <span class="text-gray-300"><span class="font-semibold text-white">Projects:</span> <span class="counter" data-target="21">0</span>+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="container mx-auto px-6 py-20">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title fade-in">Technical Skills</h2>
+
+        <div class="mb-12 fade-in">
+            <h3 class="text-xl font-semibold mb-6 gradient-text">.NET Technologies</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-microsoft text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">ASP.NET Core</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Building high-performance web APIs and MVC applications</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-database text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Entity Framework</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">ORM for data access with SQL Server and other databases</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-server text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">.NET Core</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Cross-platform application development</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-code text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">C#</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Modern, type-safe programming language</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-window-maximize text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Blazor</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Interactive web UIs with C# instead of JavaScript</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-cloud text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Azure</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Cloud services and deployment</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-microchip text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Microservices</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Distributed systems architecture</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-lock text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Identity Server</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Authentication and authorization</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-12 fade-in" style="transition-delay: 0.2s;">
+            <h3 class="text-xl font-semibold mb-6 gradient-text">Frontend Technologies</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-react text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">React</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Building interactive user interfaces</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-angular text-red-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Angular</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Single-page applications</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-js text-yellow-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">JavaScript</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Client-side scripting</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-css3-alt text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">CSS/Tailwind</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Modern styling approaches</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay: 0.4s;">
+            <h3 class="text-xl font-semibold mb-6 gradient-text">Other Skills</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-database text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">SQL Server</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Relational database management</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-code-branch text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Git</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Version control system</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-cubes text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">Docker</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Containerization</p>
+                </div>
+                <div class="tech-card p-6 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-project-diagram text-blue-400 text-2xl mr-3"></i>
+                        <h4 class="font-semibold">CI/CD</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">DevOps practices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="container mx-auto px-6 py-20">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title fade-in">Featured Projects</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project 1 -->
+            <div class="project-card p-6 rounded-lg">
+                <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
+                    <i class="fas fa-shopping-cart text-white text-6xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">E-Commerce Platform</h3>
+                <p class="text-gray-400 mb-4">
+                    A full-featured e-commerce solution built with ASP.NET Core, React, and SQL Server.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-xs">ASP.NET Core</span>
+                    <span class="bg-purple-900 text-purple-300 px-3 py-1 rounded-full text-xs">React</span>
+                    <span class="bg-green-900 text-green-300 px-3 py-1 rounded-full text-xs">Entity Framework</span>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fab fa-github"></i> Code</a>
+                    <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fas fa-external-link-alt"></i> Live</a>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card p-6 rounded-lg">
+                <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg mb-4 flex items-center justify-center">
+                    <i class="fas fa-chart-line text-white text-6xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Financial Dashboard</h3>
+                <p class="text-gray-400 mb-4">
+                    Real-time financial analytics platform with Blazor WASM and .NET microservices.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-xs">Blazor</span>
+                    <span class="bg-purple-900 text-purple-300 px-3 py-1 rounded-full text-xs">Microservices</span>
+                    <span class="bg-red-900 text-red-300 px-3 py-1 rounded-full text-xs">Azure</span>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fab fa-github"></i> Code</a>
+                    <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fas fa-external-link-alt"></i> Live</a>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card p-6 rounded-lg">
+                <div class="h-48 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg mb-4 flex items-center justify-center">
+                    <i class="fas fa-hospital text-white text-6xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Healthcare Management</h3>
+                <p class="text-gray-400 mb-4">
+                    Comprehensive healthcare system with Angular frontend and .NET backend API.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-blue-900 text-blue-300 px-3 py-1 rounded-full text-xs">ASP.NET Core</span>
+                    <span class="bg-red-900 text-red-300 px-3 py-1 rounded-full text-xs">Angular</span>
+                    <span class="bg-green-900 text-green-300 px-3 py-1 rounded-full text-xs">SQL Server</span>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fab fa-github"></i> Code</a>
+                    <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fas fa-external-link-alt"></i> Live</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12 fade-in" style="transition-delay: 0.4s;">
+            <a href="#" class="inline-block border border-blue-400 text-blue-400 px-6 py-3 rounded-full font-medium hover:bg-blue-400 hover:text-white transition">
+                View All Projects <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="container mx-auto px-6 py-20">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title fade-in">Client Testimonials</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Client" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Sarah Johnson</h4>
+                        <p class="text-blue-400 text-sm">CTO, TechSolutions Inc.</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 mb-4">
+                    "Rahul transformed our legacy system into a modern .NET application with seamless integration. His attention to detail and problem-solving skills are exceptional."
+                </p>
+                <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Michael Chen</h4>
+                        <p class="text-blue-400 text-sm">Product Manager, FinTech Corp</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 mb-4">
+                    "The financial dashboard Rahul built for us using Blazor has revolutionized our data analysis. His deep understanding of .NET and frontend technologies is impressive."
+                </p>
+                <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Emily Rodriguez</h4>
+                        <p class="text-blue-400 text-sm">Director, HealthCare Systems</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 mb-4">
+                    "Working with Rahul on our healthcare management system was a pleasure. His ability to architect complex .NET solutions while maintaining clean code is remarkable."
+                </p>
+                <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container mx-auto px-6 py-20">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title fade-in">Get In Touch</h2>
+
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2 mb-12 md:mb-0 md:pr-8">
+                <h3 class="text-2xl font-semibold mb-6 gradient-text fade-in">Contact Information</h3>
+                <p class="text-gray-300 mb-8 fade-in">
+                    Have a project in mind or want to discuss potential opportunities? Feel free to reach out. I'm always open to interesting collaborations.
+                </p>
+
+                <div class="space-y-6">
+                    <div class="flex items-start fade-in" style="transition-delay: 0.1s;">
+                        <div class="bg-blue-500 p-3 rounded-full mr-4">
+                            <i class="fas fa-map-marker-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Location</h4>
+                            <p class="text-gray-400">Noida, India</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start fade-in" style="transition-delay: 0.2s;">
+                        <div class="bg-purple-500 p-3 rounded-full mr-4">
+                            <i class="fas fa-envelope text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Email</h4>
+                            <p class="text-gray-400">rahulyadav252002@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start fade-in" style="transition-delay: 0.3s;">
+                        <div class="bg-blue-500 p-3 rounded-full mr-4">
+                            <i class="fas fa-phone-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Phone</h4>
+                            <p class="text-gray-400">+91 7079839218</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 fade-in" style="transition-delay: 0.4s;">
+                    <h4 class="font-semibold text-white mb-4">Connect With Me</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-800 text-white p-3 rounded-full transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+
+                        <a href="https://www.instagram.com/iam_rahul_yadavv?igsh=ZnQ5Y3lsd2g5YzR5"
+                           class="text-white p-3 rounded-full transition"
+                           style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="fade-in" style="transition-delay: 0.1s;">
+                            <label for="name" class="block text-gray-300 mb-2">Your Name</label>
+                            <input type="text" id="name" class="contact-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                        </div>
+                        <div class="fade-in" style="transition-delay: 0.2s;">
+                            <label for="email" class="block text-gray-300 mb-2">Your Email</label>
+                            <input type="email" id="email" class="contact-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="fade-in" style="transition-delay: 0.3s;">
+                        <label for="subject" class="block text-gray-300 mb-2">Subject</label>
+                        <input type="text" id="subject" class="contact-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                    </div>
+                    <div class="fade-in" style="transition-delay: 0.4s;">
+                        <label for="message" class="block text-gray-300 mb-2">Message</label>
+                        <textarea id="message" rows="5" class="contact-input w-full px-4 py-3 rounded-lg focus:outline-none"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary text-white px-6 py-3 rounded-full font-medium w-full fade-in" style="transition-delay: 0.5s;">
+                        Send Message <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-2xl font-bold gradient-text mb-4 md:mb-0">RAHUL<span class="text-white">PORTFOLIO</span></div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2025 Rahul. All rights reserved.
+                </div>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-blue-400"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-gray-300"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/iam_rahul_yadavv?igsh=ZnQ5Y3lsd2g5YzR5" class="text-gray-400 hover:text-blue-400"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-red-400"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Create additional background circles dynamically
+        const animatedBg = document.querySelector('.animated-bg');
+        for (let i = 0; i < 5; i++) {
+            const circle = document.createElement('div');
+            circle.classList.add('bg-circle');
+
+            // Random size between 100px and 300px
+            const size = Math.floor(Math.random() * 200) + 100;
+            circle.style.width = `${size}px`;
+            circle.style.height = `${size}px`;
+
+            // Random position
+            circle.style.top = `${Math.random() * 100}%`;
+            circle.style.left = `${Math.random() * 100}%`;
+
+            // Random animation duration
+            const duration = Math.floor(Math.random() * 20) + 10;
+            circle.style.animationDuration = `${duration}s`;
+
+            animatedBg.appendChild(circle);
+        }
+
+        // Typing animation
+        const typedText = document.getElementById('typed-text');
+        const professions = [
+            "a Frontend Developer",
+            "a .NET Developer",
+            "a Full Stack Developer",
+            "a Software Engineer"
+        ];
+
+        let professionIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let isEnd = false;
+
+        function type() {
+            const currentProfession = professions[professionIndex];
+
+            if (isDeleting) {
+                typedText.textContent = currentProfession.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedText.textContent = currentProfession.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentProfession.length) {
+                isEnd = true;
+                isDeleting = true;
+                setTimeout(type, 1500); // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                professionIndex = (professionIndex + 1) % professions.length;
+                setTimeout(type, 500); // Pause between professions
+            } else {
+                const typingSpeed = isDeleting ? 50 : 100;
+                const randomSpeed = Math.random() * 100;
+                setTimeout(type, isEnd ? typingSpeed + randomSpeed : typingSpeed);
+            }
+        }
+
+        // Start typing animation
+        setTimeout(type, 1000);
+
+        // Scroll animations
+        function checkScroll() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const techCards = document.querySelectorAll('.tech-card');
+            const projectCards = document.querySelectorAll('.project-card');
+            const testimonialCards = document.querySelectorAll('.testimonial-card');
+
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
+            });
+
+            techCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (cardTop < windowHeight - 100) {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 100);
+                }
+            });
+
+            projectCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (cardTop < windowHeight - 100) {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 100);
+                }
+            });
+
+            testimonialCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (cardTop < windowHeight - 100) {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 100);
+                }
+            });
+        }
+
+        // Check scroll on load and scroll
+        window.addEventListener('load', checkScroll);
+        window.addEventListener('scroll', checkScroll);
+
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        }
+
+        // Start counter animation when counters are in view
+        function checkCounters() {
+            const countersSection = document.querySelector('#about');
+            const countersSectionTop = countersSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (countersSectionTop < windowHeight - 100) {
+                animateCounters();
+                window.removeEventListener('scroll', checkCounters);
+            }
+        }
+
+        window.addEventListener('load', checkCounters);
+        window.addEventListener('scroll', checkCounters);
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {s
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
